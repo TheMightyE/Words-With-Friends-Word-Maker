@@ -5,23 +5,20 @@ import Word as w
 
 def main():
     letters = sys.argv[1]
-    # print(word.s)
     words = getWords(letters)
-    # print words
-    # print(words)
     scoredWords = []
     for i in words:
         s = w.Word(i, len(i), score(i))
         scoredWords.append(s)
-        # print(i)
-    # word = w.Word(s, len(s))
-    # print removeLetter('hello', 'l')
-    # scoredWords = scoredWords.sort()
-    newlist = sorted(scoredWords, key=lambda x: x.points, reverse=True)
+
+    ''' Sort the words in decending order based on their points '''
+    newlist = sorted(scoredWords, key=lambda i: i.points, reverse=True)
+
     for i in newlist:
         print (i.word + ': ' + str(i.points))
 
 def score(word):
+    ''' Define what each letter is worth in the game '''
     letterPoints = {
         'a':1,
         'b':4,
@@ -50,31 +47,44 @@ def score(word):
         'y':3,
         'z':10
     }
+    ''' Calculate the score '''
     score = 0
     for ch in word:
         score = score + letterPoints[ch]
     return score
 
 def getWords(letters):
+    ''' Using the list that is used by the game '''
     filename = 'enable-word-list.txt'
 
     possibleWords = []
     with open(filename) as inF:
         for line in inF:
+            ''' Remove characters like the new line character '''
             line = replaceNonAlnum(line)
-            if len(line) > 1 and len(line) <= len(letters):
+
+            '''
+            Only check the words that are less than or equal
+            to the length of the letters
+            '''
+            if len(line) <= len(letters):
                 good = False
+                ''' Copy the original letters string '''
                 tmp = letters
-                for c in line:
-                    if c in tmp:
+                for char in line:
+                    if char in tmp:
                         good = True
-                        tmp = removeLetter(tmp, c)
+                        '''
+                        Every time a letter from the tmp string is checked,
+                        it is removed from the string. This is useful if the
+                        letters string has duplicate letters.
+                        '''
+                        tmp = removeLetter(tmp, char)
                     else:
                         good = False
                         break
                 if good:
                     possibleWords.append(line)
-                #     print line
 
     return possibleWords
 
@@ -85,12 +95,12 @@ def replaceNonAlnum(s):
     return new.strip()
 
 def removeLetter(s, c):
-    indx = s.find(c)
-    s2 = ''
+    indxToRemove = s.find(c)
+    newStr = ''
     for i in range(len(s)):
-        if i != indx:
-            s2 = s2 + s[i]
-    return s2
+        if i != indxToRemove:
+            newStr = newStr + s[i]
+    return newStr
 
 main()
 
