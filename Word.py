@@ -1,6 +1,5 @@
-class Word(object):
+class Word:
 
-    def __init__(self, word, length, points=0):
+    def __init__(self, word, points=0):
         self.word = word
-        self.length = length
         self.points = points
