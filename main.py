@@ -4,7 +4,9 @@ import Word as w
 
 
 def main():
-    global debug
+    global debug, wildcard
+    ''' Wildcard is represented as this character '''
+    wildcard = '?'
     debug = False
 
     try:
@@ -12,8 +14,10 @@ def main():
     except IndexError:
         print('Please enter letters')
         exit(0)
-
+    ''' Get all the possible words '''
     words = getWords(letters)
+
+    ''' Score all of the possible words '''
     scoredWords = []
     for i in words:
         s = w.Word(i, score(i))
@@ -25,10 +29,12 @@ def main():
     for i in newlist:
         print (i.word + ': ' + str(i.points))
     if len(newlist) > 0:
-        print('\nHighest point word: ' + newlist[0].word + ' (' + str(newlist[0].points) + ' points)')
+        print('\nHighest point word: ' +
+              newlist[0].word + ' (' + str(newlist[0].points) + ' points)')
         print('Total possible words: ' + str(len(newlist)))
     else:
         print('No possible words.')
+
 
 def score(word):
     ''' Define what each letter is worth in the game '''
@@ -144,11 +150,8 @@ def removeLetter(s, c):
 
 
 def hasWildcard(s):
-    return '?' in s
+    return wildcard in s
 
 
-main()
-
-
-# local group = few dozen small
-# major galaxy in local group = 2 or 3
+if __name__ == '__main__':
+    main()
